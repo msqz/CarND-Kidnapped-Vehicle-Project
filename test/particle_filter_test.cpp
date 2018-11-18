@@ -85,30 +85,30 @@ void testUpdate() {
   ParticleFilter pf;
   double x = 1.0;
   double y = 1.0;
-  double theta = 0.1;
+  double theta = 0.0;
   double stdev[2] = {0.0, 0.0};
   pf.init(x, y, theta, stdev);
 
   double sensor_range = 50;
-  double std_landmark[2] = {0.0, 0.0};
+  double std_landmark[2] = {0.1, 0.1};
   std::vector<LandmarkObs> observations{LandmarkObs{
       .id = 0,
-      .x = 2.0,
-      .y = 2.0,
+      .x = 3.0,
+      .y = 3.0,
   }};
 
   Map map_landmarks;
   map_landmarks.landmark_list.push_back(Map::single_landmark_s{
-    .id_i = 1,
-    .x_f = 2.0,
-    .y_f = 2.0,
+      .id_i = 1,
+      .x_f = 5.0,
+      .y_f = 5.0,
   });
 
   pf.updateWeights(sensor_range, std_landmark, observations, map_landmarks);
   double weight_expected = 0.0;
 
   for (const Particle &particle : pf.particles) {
-    if (particle.weight != weight_expected) {
+    if (round(particle.weight * 100) / 100 != weight_expected) {
       std::cout << "weight should be " << weight_expected << " got " << particle.weight << "\n";
       result = false;
     }
@@ -120,9 +120,21 @@ void testUpdate() {
   std::cout << __FUNCTION__ << " passed\n";
 }
 
+void testResample() {
+  ParticleFilter pf;
+  double x = 1.0;
+  double y = 1.0;
+  double theta = 0.0;
+  double stdev[2] = {0.0, 0.0};
+  pf.init(x, y, theta, stdev);
+
+  pf.resample();
+}
+
 int main() {
   testInit();
   testPrediction();
   testUpdate();
+  testResample();
   return 0;
 }
