@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/helper_functions.h
+sstream
+-
+fstream
+-
+math.h
+-
+vector
+-
+map.h
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/map.h
+
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/map.h
+
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/particle_filter.cpp
+math.h
+-
+algorithm
+-
+iostream
+-
+iterator
+-
+numeric
+-
+random
+-
+sstream
+-
+string
+-
+particle_filter.h
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/particle_filter.h
+
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/particle_filter.h
+helper_functions.h
+/home/m/udacity/CarND-Kidnapped-Vehicle-Project/src/helper_functions.h
+
