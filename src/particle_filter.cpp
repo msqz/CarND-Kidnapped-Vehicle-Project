@@ -7,7 +7,6 @@
 
 #include <math.h>
 #include <algorithm>
-#include <chrono>
 #include <iostream>
 #include <iterator>
 #include <map>
@@ -53,7 +52,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
   // NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
   //  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
   //  http://www.cplusplus.com/reference/random/default_random_engine/
-  auto start = chrono::high_resolution_clock::now();
   for (int i_p = 0; i_p < num_particles; i_p++) {
     if (yaw_rate == 0) {
       particles[i_p].x += velocity * delta_t * cos(particles[i_p].theta);
@@ -72,9 +70,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
     particles[i_p].y = dist_y(generator);
     particles[i_p].theta = dist_theta(generator);
   }
-
-  auto end = chrono::high_resolution_clock::now();
-  cout << "prediction(): " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "us\n";
 }
 
 void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs> &observations) {
@@ -96,8 +91,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
   //   and the following is a good resource for the actual equation to implement (look at equation
   //   3.33
   //   http://planning.cs.uiuc.edu/node99.html
-  auto start = chrono::high_resolution_clock::now();
-
   for (int i_p = 0; i_p < num_particles; i_p++) {
     // convert landmarks list to map (for easier lookup)
     if (landmarks.empty()) {
@@ -172,12 +165,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
     // SetAssociations(particles[i_p], associations, sense_x, sense_y);
   }
-  auto end = chrono::high_resolution_clock::now();
-  cout << "updateWeights(): " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "us\n";
 }
 
 void ParticleFilter::resample() {
-  auto start = chrono::high_resolution_clock::now();
   // TODO: Resample particles with replacement with probability proportional to their weight.
   // NOTE: You may find std::discrete_distribution helpful here.
   //   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
@@ -189,9 +179,6 @@ void ParticleFilter::resample() {
   }
 
   particles = resampled;
-
-  auto end = chrono::high_resolution_clock::now();
-  cout << "resample(): " << chrono::duration_cast<chrono::microseconds>(end - start).count() << "us\n";
 }
 
 Particle ParticleFilter::SetAssociations(Particle &particle, const std::vector<int> &associations,
